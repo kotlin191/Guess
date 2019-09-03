@@ -9,6 +9,9 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.room.Room
+import com.tom.guess.data.GameDatabase
+import com.tom.guess.data.Record
 
 import kotlinx.android.synthetic.main.activity_material.*
 import kotlinx.android.synthetic.main.content_material.*
@@ -34,6 +37,15 @@ class MaterialActivity : AppCompatActivity() {
         val nick = getSharedPreferences("guess", Context.MODE_PRIVATE)
             .getString("REC_NICKNAME", null)
         Log.d(TAG, "data: $count / $nick");
+        //Room test
+        val database = Room.databaseBuilder(this,
+            GameDatabase::class.java, "game.db")
+            .build()
+        val record = Record("Jack", 3)
+        Thread(){
+            database.recordDao().insert(record)
+        }.start()
+
     }
 
     private fun replay() {
