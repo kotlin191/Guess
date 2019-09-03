@@ -26,13 +26,9 @@ class RecordActivity : AppCompatActivity() {
                 .putString("REC_NICKNAME", nick)
                 .apply()
             // insert to Room
-            //Room test
-            val database = Room.databaseBuilder(this,
-                GameDatabase::class.java, "game.db")
-                .build()
-            val record = Record(nick, count)
             Thread(){
-                database.recordDao().insert(record)
+                GameDatabase.getInstance(this)?.recordDao()?.
+                    insert(Record(nick, count))
             }.start()
 
             val intent = Intent()

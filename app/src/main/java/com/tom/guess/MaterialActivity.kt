@@ -3,6 +3,7 @@ package com.tom.guess
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -37,15 +38,13 @@ class MaterialActivity : AppCompatActivity() {
         val nick = getSharedPreferences("guess", Context.MODE_PRIVATE)
             .getString("REC_NICKNAME", null)
         Log.d(TAG, "data: $count / $nick");
-        //Room test
-        val database = Room.databaseBuilder(this,
-            GameDatabase::class.java, "game.db")
-            .build()
-        val record = Record("Jack", 3)
-        Thread(){
-            database.recordDao().insert(record)
-        }.start()
-
+        //Room read test
+        AsyncTask.execute {
+            val list = GameDatabase.getInstance(this)?.recordDao()?.getAll()
+            list?.forEach {
+                Log.d(TAG, "record: ${it.nickname} ${it.counter}");
+            }
+        }
     }
 
     private fun replay() {
