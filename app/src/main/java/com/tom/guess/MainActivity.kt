@@ -1,5 +1,6 @@
 package com.tom.guess
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -18,8 +19,8 @@ class MainActivity : AppCompatActivity() {
     val TAG = MainActivity::class.java.simpleName
     val functions = listOf<String>(
         "Camera",
-        "Invite friend",
-        "Parking",
+        "Guess game",
+        "Record list",
         "Download coupons",
         "News",
         "Maps")
@@ -47,6 +48,17 @@ class MainActivity : AppCompatActivity() {
 
         override fun onBindViewHolder(holder: FunctionHolder, position: Int) {
             holder.nameText.text = functions.get(position)
+            holder.itemView.setOnClickListener {
+                functionClicked(position)
+            }
+        }
+    }
+
+    private fun functionClicked(position: Int) {
+        when(position) {
+            1 -> startActivity(Intent(this, MaterialActivity::class.java))
+            2 -> startActivity(Intent(this, RecordListActivity::class.java))
+            else -> return
         }
     }
 
